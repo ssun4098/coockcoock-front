@@ -1,15 +1,11 @@
 <template>
-  <div class="container">
-    <MySignup></MySignup>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-import MySignup from "@/components/Signup";
 
 export default {
-  name: 'App',
-  components: {MySignup}
+  name: 'App'
 }
 </script>
 
