@@ -62,9 +62,12 @@ export default {
         },
         timeout: 5000
       })
-          .then(function() {
-            alert("회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.");
-            window.location = '/login'
+          .then(function(response) {
+            if(response.data.success === true){
+              alert("회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.");
+              window.location = '/login'
+            }
+            alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
           })
           .catch(function (error) {
         alert("Error: " + error)
@@ -89,13 +92,13 @@ export default {
         timeout: 5000
       })
           .then(function (response) {
-            if(response.data.check === false) {
+            if(response.data.data.check === false) {
               t.loginIdDuplicationConfirm = true;
               alert("해당 닉네임은 사용할 수 있습니다.");
-            } else {
-              t.loginIdDuplicationConfirm = false;
-              alert("해당 닉네임은 사용할 수 없습니다.");
+              return;
             }
+            t.loginIdDuplicationConfirm = false;
+            alert("해당 닉네임은 사용할 수 없습니다.");
           })
     }
   },

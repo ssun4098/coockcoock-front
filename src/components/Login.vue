@@ -48,8 +48,11 @@ export default {
         },
         timeout: 5000
       })
-          .then(function () {
-            alert("Login Success");
+          .then(function (response) {
+            if(response.data.success === true) {
+              console.log(response.data.data.token);
+              this.$store.commit('login', response.data.data.token);
+            }
           })
           .catch(function (error) {
             alert(error);
