@@ -4,13 +4,53 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import signup from "@/components/Signup";
 import login from "@/components/Login";
+import board from "./components/RecipeBoard.vue"
+import write from "./components/WriteRecipe.vue"
 import { createRouter, createWebHistory } from 'vue-router'
+import {createStore} from 'vuex'
 
 const app = createApp(App);
 
+// store 생성
+const store = createStore({
+    state: {
+        token: ''
+    },
+    getters: {
+        getToken() {
+            return this.token;
+        }
+    },
+    mutations: {
+        login(state, token) {
+            state.token = token;
+        } 
+    }
+})
+
+//store 등록
+app.use(store);
+
 const routes = [
     { path: '/login', component: login},
-    { path: '/signup', component: signup}
+    { path: '/signup', component: signup},
+    {
+        path: '/board',
+        component: board,
+        beforeEnter(to, from, next) {
+            console.log(store.state.token)
+            // if(store.state.token === '') {
+            //     next('/login');
+            // } else {
+            //     next();
+            // }
+            next();
+        }
+    },
+    {
+        path: '/write',
+        component: write
+    }
 ]
 
 const router = createRouter({

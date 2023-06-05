@@ -10,7 +10,7 @@
     <input type="password" id="input-password" class="form-control" v-model="form.password">
   </div>
 
-  <button type="submit" class="btn btn-primary">로그인</button>
+  <button type="submit" class="btn btn-primary">로그인</button><a class="btn btn-secondary" href="/signup">회원가입</a>
 </form>
 </template>
 
