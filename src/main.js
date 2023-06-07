@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import signup from "@/components/Signup";
@@ -31,8 +32,7 @@ const routes = [
         path: '/board',
         component: board,
         beforeEnter(to, from, next) {
-            console.log(store.state.token)
-            if(store.state.token === '') {
+            if(store.state.token === undefined) {
                 next('/login');
             } else {
                 next();
