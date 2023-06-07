@@ -38,7 +38,7 @@ export default {
         alert('비밀번호를 입력해주세요.');
         return;
       }
-
+      let test = this;
       this.$axios({
         method: "post",
         url: "http://localhost:8080/v1/members/login",
@@ -50,8 +50,9 @@ export default {
       })
           .then(function (response) {
             if(response.data.success === true) {
-              console.log(response.data.data.token);
-              this.$store.commit('login', response.data.data.token);
+              test.$store.commit('login', response.data.data.token);
+              test.$cookies.set('token', response.data.data.token);
+              window.location = '/board'
             }
           })
           .catch(function (error) {

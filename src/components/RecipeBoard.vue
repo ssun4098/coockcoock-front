@@ -1,6 +1,6 @@
 <template>
   <h1>Board</h1>
-  <button id="write_btn" class="btn btn-primary" value="글쓰기"></button>
+  <a id="write_btn" class="btn btn-primary" href="/write" value="글쓰기"></a>
 </template>
 
 <script>

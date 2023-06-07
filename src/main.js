@@ -8,23 +8,16 @@ import board from "./components/RecipeBoard.vue"
 import write from "./components/WriteRecipe.vue"
 import { createRouter, createWebHistory } from 'vue-router'
 import {createStore} from 'vuex'
+import VueCookies from 'vue3-cookies'
+import tokenStore from "./modules/tokenStore"
 
 const app = createApp(App);
+app.use(VueCookies)
 
 // store 생성
 const store = createStore({
-    state: {
-        token: ''
-    },
-    getters: {
-        getToken() {
-            return this.token;
-        }
-    },
-    mutations: {
-        login(state, token) {
-            state.token = token;
-        } 
+    modules: {
+        tokenStore: tokenStore
     }
 })
 
@@ -39,12 +32,11 @@ const routes = [
         component: board,
         beforeEnter(to, from, next) {
             console.log(store.state.token)
-            // if(store.state.token === '') {
-            //     next('/login');
-            // } else {
-            //     next();
-            // }
-            next();
+            if(store.state.token === '') {
+                next('/login');
+            } else {
+                next();
+            }
         }
     },
     {

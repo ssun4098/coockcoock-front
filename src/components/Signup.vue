@@ -66,6 +66,7 @@ export default {
             if(response.data.success === true){
               alert("회원가입에 성공하셨습니다. 로그인 창으로 이동합니다.");
               window.location = '/login'
+              return;
             }
             alert("회원가입에 실패하였습니다. 다시 시도해주세요.");
           })
