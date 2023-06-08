@@ -5,8 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import signup from "@/components/Signup";
 import login from "@/components/Login";
-import board from "./components/RecipeBoard.vue"
-import write from "./components/WriteRecipe.vue"
+import board from "./components/RecipeBoard.vue";
+import write from "./components/WriteRecipe.vue";
+import ingredients from "./components/Ingredient.vue";
 import { createRouter, createWebHistory } from 'vue-router'
 import {createStore} from 'vuex'
 import VueCookies from 'vue3-cookies'
@@ -42,6 +43,10 @@ const routes = [
     {
         path: '/write',
         component: write
+    },
+    {
+        path: '/ingredents',
+        component: ingredients
     }
 ]
 
