@@ -16,33 +16,12 @@
             </tr>
         </tbody>
     </table>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Insert
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Save to Ingredient</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form class="">
+        <form @submit="onSubmit">
             <label for="input-name" class="form-label">Ingredient's Name</label>
             <input id="input-name" v-model="this.form.name" class="form-control"/>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
+        <button class="btn" @click="getIngredients">클릭</button>
 </template>
 
 <script>
@@ -60,6 +39,23 @@ export default {
         }
     },
     methods: {
+        onSubmit(event) {
+            event.preventDefault();
+            console.log("test");
+            let d = this;
+            const dd = this.form;
+            const headers = {
+                "Content-Type" : "application/json; charset=utf-8",
+                "Authorization" : 'Bearer ' + d.$cookies.get('token')
+            }
+            d.$axios.post("http://localhost:8080/v1/ingredients/test", JSON.stringify(dd), {headers})
+            .then(function () {
+                d.getIngredients();
+            })
+            .catch(function (error) {
+                alert(error);
+            }) 
+        },
         deleteIngredient(ingredient) {
             if(confirm(ingredient.name + '을 삭제하겠습니까?')) {
                 console.log(ingredient);
@@ -77,9 +73,13 @@ export default {
                 },
                 timeout: 5000
             }).then(function(response) {
-                console.log(response)
+                console.log(response.data.data.content);
+                array.ingredients = response.data.data.content;
             })
         }
+    },
+    created() {
+        this.getIngredients()
     }
 }
 </script>
