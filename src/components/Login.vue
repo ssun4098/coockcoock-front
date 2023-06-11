@@ -53,6 +53,7 @@ export default {
               test.$store.commit('login', response.data.data.token);
               test.$cookies.set('token', response.data.data.token);
               window.location = '/board'
+              return;
             }
           })
           .catch(function (error) {

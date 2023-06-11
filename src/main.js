@@ -33,7 +33,8 @@ const routes = [
         path: '/board',
         component: board,
         beforeEnter(to, from, next) {
-            if(store.state.token === undefined) {
+            console.log(store.state.tokenStore.token)
+            if(store.state.tokenStore.token === undefined) {
                 next('/login');
             } else {
                 next();
