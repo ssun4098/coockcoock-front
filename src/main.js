@@ -3,62 +3,19 @@ import App from './App.vue'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
-import signup from "@/components/Signup";
-import login from "@/components/Login";
-import board from "./components/RecipeBoard.vue";
-import write from "./components/WriteRecipe.vue";
-import ingredients from "./components/Ingredient.vue";
-import { createRouter, createWebHistory } from 'vue-router'
-import {createStore} from 'vuex'
 import VueCookies from 'vue3-cookies'
 import tokenStore from "./modules/tokenStore"
+import myRouter from "@/modules/mainRouter"
 
 const app = createApp(App);
 app.use(VueCookies)
 
-// store 생성
-const store = createStore({
-    modules: {
-        tokenStore: tokenStore
-    }
-})
-
 //store 등록
-app.use(store);
-
-const routes = [
-    { path: '/login', component: login},
-    { path: '/signup', component: signup},
-    {
-        path: '/board',
-        component: board,
-        beforeEnter(to, from, next) {
-            console.log(store.state.tokenStore.token)
-            if(store.state.tokenStore.token === undefined) {
-                next('/login');
-            } else {
-                next();
-            }
-        }
-    },
-    {
-        path: '/write',
-        component: write
-    },
-    {
-        path: '/ingredents',
-        component: ingredients
-    }
-]
-
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
+app.use(tokenStore);
 
 // 앱이 라우터를 인식하도록,
 // 라우터 인스턴스를 `use()`로 등록해야 함.
-app.use(router);
+app.use(myRouter);
 
 // axios 글로벌 config 설정
 app.config.globalProperties.$axios = axios;

@@ -1,4 +1,5 @@
 import { useCookies } from "vue3-cookies";
+import {createStore} from 'vuex'
 
 const store = {
     state: {
@@ -16,4 +17,5 @@ const store = {
     }
 }
 
-export default store;
+
+export default createStore(store);
