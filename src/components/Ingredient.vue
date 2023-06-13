@@ -16,12 +16,30 @@
             </tr>
         </tbody>
     </table>
-        <form @submit="onSubmit">
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
             <label for="input-name" class="form-label">Ingredient's Name</label>
             <input id="input-name" v-model="this.form.name" class="form-control"/>
-            <button type="submit" class="btn btn-primary">Save</button>
         </form>
-        <button class="btn" @click="getIngredients">클릭</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button @click="createIngredient" type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -39,7 +57,7 @@ export default {
         }
     },
     methods: {
-        onSubmit(event) {
+        createIngredient(event) {
             event.preventDefault();
             console.log("test");
             let d = this;
@@ -48,7 +66,7 @@ export default {
                 "Content-Type" : "application/json; charset=utf-8",
                 "Authorization" : 'Bearer ' + d.$cookies.get('token')
             }
-            d.$axios.post("http://localhost:8080/v1/ingredients/test", JSON.stringify(dd), {headers})
+            d.$axios.post("http://localhost:8080/v1/ingredients", JSON.stringify(dd), {headers})
             .then(function () {
                 d.getIngredients();
             })
@@ -58,7 +76,23 @@ export default {
         },
         deleteIngredient(ingredient) {
             if(confirm(ingredient.name + '을 삭제하겠습니까?')) {
-                console.log(ingredient);
+                console.log(JSON.stringify({id: ingredient.id}));
+                const t = this;
+                const headers = {
+                "Content-Type" : "application/json; charset=utf-8",
+                "Authorization" : 'Bearer ' + t.$cookies.get('token')
+            }
+                const body = {
+                    id: ingredient.id
+                }
+                this.$axios.delete("http://localhost:8080/v1/ingredients", {
+                    data: JSON.stringify(body),
+                    headers: headers
+                })
+                .then(function() {
+                    t.getIngredients();
+                })
+                
             }
         },
         getIngredients() {
@@ -73,7 +107,6 @@ export default {
                 },
                 timeout: 5000
             }).then(function(response) {
-                console.log(response.data.data.content);
                 array.ingredients = response.data.data.content;
             })
         }
