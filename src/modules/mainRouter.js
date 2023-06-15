@@ -13,7 +13,7 @@ const routes =  [
         path: '/board',
         component: board,
         beforeEnter(to, from, next) {
-            if(store.state.tokenStore.token === undefined) {
+            if(store.state.token === undefined) {
                 next('/login');
             } else {
                 next();
@@ -25,7 +25,7 @@ const routes =  [
         component: write
     },
     {
-        path: '/ingredents',
+        path: '/ingredients',
         component: ingredients
     }
 ]

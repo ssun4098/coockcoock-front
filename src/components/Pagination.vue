@@ -20,12 +20,16 @@
 
 <script>
 export default {
-    name: 'myPagenation',
+    name: 'MyPagination',
+    data() {
+      return {
+        response: ''
+      }
+    },
     props: {
         url: String,
-        page: Number,
-        size: Number,
-        body: Array
+        pageable: Object,
+        body: Object
     }
 }
 </script>

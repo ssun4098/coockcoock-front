@@ -16,8 +16,8 @@
             Manage
           </a>
           <div class="dropdown-menu">
-            <div class="dropdown-item" v-for="link in links" :key="link.id">
-              <router-link :to="'${link.page}'" class="link-secondary" style=text-decoration:none;>{{ link.text}}</router-link>
+            <div class="dropdown-item" v-for="link in links" :key="link.page">
+              <router-link :to="link.page" class="link-secondary" style=text-decoration:none;>{{ link.text}}</router-link>
             </div>
           </div>
         </li>
@@ -35,7 +35,7 @@ export default {
         links: [
           {
             id: 1,
-            page: '/ingredients',
+            page: '/ingredient',
             text: 'Ingredient'
         },
         {

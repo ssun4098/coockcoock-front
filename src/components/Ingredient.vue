@@ -16,9 +16,8 @@
             </tr>
         </tbody>
     </table>
-
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
-
+<my-pagination></my-pagination>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -43,14 +42,19 @@
 </template>
 
 <script>
+import  MyPagination from '@/components/Pagination.vue'
 export default {
     name: 'MyIngredient',
+    components: {
+        'my-pagination': MyPagination
+    },
     data() {
         return {
             ingredients: [{id: 1, name: "이름"}],
             input: null,
             page: 0,
             size: 10,
+            pageable: null,
             form: {
                 name: ''
             }
@@ -59,16 +63,15 @@ export default {
     methods: {
         createIngredient(event) {
             event.preventDefault();
-            console.log("test");
-            let d = this;
+            const t = this;
             const dd = this.form;
             const headers = {
                 "Content-Type" : "application/json; charset=utf-8",
-                "Authorization" : 'Bearer ' + d.$cookies.get('token')
+                "Authorization" : 'Bearer ' + t.$cookies.get('token')
             }
-            d.$axios.post("http://localhost:8080/v1/ingredients", JSON.stringify(dd), {headers})
+            t.$axios.post("http://localhost:8080/v1/ingredients", JSON.stringify(dd), {headers})
             .then(function () {
-                d.getIngredients();
+                t.getIngredients();
             })
             .catch(function (error) {
                 alert(error);
@@ -96,22 +99,33 @@ export default {
             }
         },
         getIngredients() {
-            const array = this;
-            array.$axios({
-                methods: "get",
-                data: JSON.stringify(array.input),
-                url: 'http://localhost:8080/v1/ingredients' + '?page=' + array.page + '&size='+ array.size,
-                headers: {
-                    "Content-Type" : "application/json; charset=utf-8",
-                    "Authorization" : 'Bearer ' + array.$cookies.get('token')
-                },
-                timeout: 5000
-            }).then(function(response) {
-                array.ingredients = response.data.data.content;
+            const t = this;
+            const headers = {
+                "Content-Type" : "application/json; charset=utf-8",
+                "Authorization" : 'Bearer ' + t.$cookies.get('token')
+            }
+            const url = "http://localhost:8080/v1/ingredients";
+            this.$axios({
+                url: url,
+                methods: 'GET',
+                headers: headers,
+                params: {
+                    page: t.page,
+                    size: t.size
+                }
+            })
+            .then(function(response) {
+                console.log(response);
+                t.ingredients = response.data.data.content;
+                t.page = response.data.data.pageable.pageNumber + 1;
+                t.pageable = response.data.data.pageable;
+            })
+            .catch(function (error) {
+                alert(error);
             })
         }
     },
-    created() {
+    mounted() {
         this.getIngredients()
     }
 }

@@ -48,7 +48,7 @@ export default {
         },
         timeout: 5000
       })
-          .then(function (response) {
+          .then(response => {
             if(response.data.success === true) {
               test.$store.commit('login', response.data.data.token);
               test.$cookies.set('token', response.data.data.token);
