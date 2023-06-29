@@ -17,7 +17,15 @@
         </tbody>
     </table>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
-<my-pagination></my-pagination>
+  <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" v-if="page > 10" @click="getIngredients(page-1)">Previous</li>
+    <li class="page-item" v-for="page in pageable.totalPages" :key="page">
+        <a class="page-link" href="#" @click="getIngredients(page-1)">{{page}}</a>
+    </li>
+  </ul>
+</nav>
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -42,19 +50,15 @@
 </template>
 
 <script>
-import  MyPagination from '@/components/Pagination.vue'
 export default {
     name: 'MyIngredient',
-    components: {
-        'my-pagination': MyPagination
-    },
     data() {
         return {
             ingredients: [{id: 1, name: "이름"}],
             input: null,
             page: 0,
             size: 10,
-            pageable: null,
+            pageable: '',
             form: {
                 name: ''
             }
@@ -71,7 +75,7 @@ export default {
             }
             t.$axios.post("http://localhost:8080/v1/ingredients", JSON.stringify(dd), {headers})
             .then(function () {
-                t.getIngredients();
+                t.getIngredients(0);
             })
             .catch(function (error) {
                 alert(error);
@@ -93,12 +97,12 @@ export default {
                     headers: headers
                 })
                 .then(function() {
-                    t.getIngredients();
+                    t.getIngredients(t.page-1);
                 })
                 
             }
         },
-        getIngredients() {
+        getIngredients(page) {
             const t = this;
             const headers = {
                 "Content-Type" : "application/json; charset=utf-8",
@@ -110,7 +114,7 @@ export default {
                 methods: 'GET',
                 headers: headers,
                 params: {
-                    page: t.page,
+                    page: page,
                     size: t.size
                 }
             })
@@ -118,15 +122,15 @@ export default {
                 console.log(response);
                 t.ingredients = response.data.data.content;
                 t.page = response.data.data.pageable.pageNumber + 1;
-                t.pageable = response.data.data.pageable;
+                t.pageable = response.data.data;
             })
             .catch(function (error) {
                 alert(error);
             })
         }
     },
-    mounted() {
-        this.getIngredients()
+    created() {
+        this.getIngredients(0)
     }
 }
 </script>
