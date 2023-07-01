@@ -35,7 +35,7 @@ export default {
         links: [
           {
             id: 1,
-            page: '/ingredient',
+            page: '/ingredients',
             text: 'Ingredient'
         },
         {
