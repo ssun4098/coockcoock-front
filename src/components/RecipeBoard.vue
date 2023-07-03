@@ -15,7 +15,7 @@
       <tr v-for="(recipe, index) in recipes" :key="index">
         <th scope="row">{{index}}</th>
         <td scope="row" class="table_body_title">
-            <a :href="'/board/' + recipe.id">
+            <a :href="'/recipe/' + recipe.id">
               {{recipe.title}}
             </a>
         </td>

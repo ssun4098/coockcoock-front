@@ -4,6 +4,7 @@ import login from "@/components/Login";
 import board from "@/components/RecipeBoard.vue";
 import write from "@/components/WriteRecipe.vue";
 import ingredients from "@/components/Ingredient.vue";
+import recipe from "@/components/Recipe.vue"
 import store from "@/modules/tokenStore"
 
 const routes =  [
@@ -27,6 +28,10 @@ const routes =  [
     {
         path: '/ingredients',
         component: ingredients
+    },
+    {
+        path: '/recipe/:id',
+        component: recipe
     }
 ]
 
