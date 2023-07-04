@@ -6,7 +6,6 @@ import axios from 'axios'
 import VueCookies from 'vue3-cookies'
 import tokenStore from "./modules/tokenStore"
 import myRouter from "@/modules/mainRouter"
-import jwt from ' jsonwebtoken'
 
 const app = createApp(App);
 app.use(VueCookies)
@@ -20,8 +19,5 @@ app.use(myRouter);
 
 // axios 글로벌 config 설정
 app.config.globalProperties.$axios = axios;
-
-//jwt 등록
-app.use(jwt);
 
 app.mount('#app');

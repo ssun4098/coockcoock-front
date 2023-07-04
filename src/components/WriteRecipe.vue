@@ -170,6 +170,7 @@ export default {
             extendedAutolinks: true,
             frontMatter: true
       });
+      this.editor.removeToolbarItem("image");
     }
 }
 </script>

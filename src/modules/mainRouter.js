@@ -3,6 +3,7 @@ import signup from "@/components/Signup";
 import login from "@/components/Login";
 import board from "@/components/RecipeBoard.vue";
 import write from "@/components/WriteRecipe.vue";
+import update from "@/components/UpdateRecipe.vue";
 import ingredients from "@/components/Ingredient.vue";
 import recipe from "@/components/Recipe.vue"
 import store from "@/modules/tokenStore"
@@ -20,6 +21,10 @@ const routes =  [
                 next();
             }
         }
+    },
+    {
+        path: '/write/:id',
+        component: update
     },
     {
         path: '/write',
